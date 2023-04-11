@@ -1,8 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://d4jdcavluwx6s"]
+[gd_scene load_steps=4 format=3 uid="uid://d4jdcavluwx6s"]
 
-[ext_resource type="PackedScene" uid="uid://dcu2317ry746m" path="res://NoiseSprite.tscn" id="1_1q6w8"]
+[ext_resource type="Script" path="res://NoiseSprite.gd" id="1_c5cne"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_fsyqk"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_f1lv3"]
+width = 1152
+height = 640
+noise = SubResource("FastNoiseLite_fsyqk")
 
 [node name="TileMap" type="TileMap"]
 format = 2
 
-[node name="NoiseSprite" parent="." instance=ExtResource("1_1q6w8")]
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("NoiseTexture2D_f1lv3")
+centered = false
+script = ExtResource("1_c5cne")
