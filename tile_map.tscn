@@ -1,4 +1,8 @@
-[gd_scene format=3 uid="uid://d4jdcavluwx6s"]
+[gd_scene load_steps=2 format=3 uid="uid://d4jdcavluwx6s"]
+
+[ext_resource type="PackedScene" uid="uid://dcu2317ry746m" path="res://NoiseSprite.tscn" id="1_1q6w8"]
 
 [node name="TileMap" type="TileMap"]
 format = 2
+
+[node name="NoiseSprite" parent="." instance=ExtResource("1_1q6w8")]
