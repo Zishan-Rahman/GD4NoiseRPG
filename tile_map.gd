@@ -54,6 +54,7 @@ var y_tile_range: int = ProjectSettings.get_setting("display/window/size/viewpor
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var start_time: float = Time.get_ticks_msec()
 	for x in range(x_tile_range):
 		for y in range(y_tile_range):
 			var noise_point: float = NoiseSprite.texture.noise.get_noise_2d(x * tile_set.tile_size.x, y * tile_set.tile_size.y)
@@ -61,3 +62,5 @@ func _ready():
 				set_cell(0, Vector2i(x, y), 0, trees.pick_random())
 			if ((building_cap <= tree_cap and randf() < building_overtakes_tree) or (building_cap > tree_cap and noise_point < building_cap)) and not get_used_cells(0).has(Vector2i(x, y)):
 				set_cell(0, Vector2i(x, y), 0, buildings.pick_random())
+	var new_time: float = Time.get_ticks_msec() - start_time
+	print("Time taken: " + str(new_time) + "ms")
