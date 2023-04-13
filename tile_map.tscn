@@ -1097,6 +1097,7 @@ height = 640
 noise = SubResource("FastNoiseLite_fsyqk")
 
 [node name="TileMap" type="TileMap"]
+texture_filter = 1
 tile_set = SubResource("TileSet_qtrb6")
 format = 2
 script = ExtResource("2_o1dn1")
