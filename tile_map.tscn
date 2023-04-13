@@ -1107,3 +1107,5 @@ visible = false
 texture = SubResource("NoiseTexture2D_f1lv3")
 centered = false
 script = ExtResource("1_c5cne")
+
+[node name="Timer" type="Timer" parent="."]

@@ -47,6 +47,8 @@ var trees: Array[Vector2i] = [
 const PLAYER_SPRITE: Vector2i = Vector2i(24, 7)
 var player_placement_cell: Vector2i
 
+@onready var timer: Timer = $Timer
+@export_range(10, 200, 10) var player_movement_speed: int = 100 
 @onready var NoiseSprite: Sprite2D = $Sprite2D
 @export_range(-1.0, 1.0) var tree_cap: float = -0.048
 @export_range(-1.0, 1.0) var building_cap: float = -0.252
