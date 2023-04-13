@@ -88,6 +88,8 @@ func _physics_process(_delta):
 		set_cell(0, previous_cell, 0)
 		set_cell(0, player_placement_cell, 0, PLAYER_SPRITE)
 
+# ALGORITHM BEGINS HERE
+
 func paint_tiles():
 	for x in range(x_tile_range):
 		for y in range(y_tile_range):
