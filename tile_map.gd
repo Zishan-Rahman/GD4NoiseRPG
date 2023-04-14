@@ -47,9 +47,14 @@ const trees: Array[Vector2i] = [
 const PLAYER_SPRITE: Vector2i = Vector2i(24, 7)
 var player_placement_cell: Vector2i
 
-@onready var timer: Timer = $Timer
-@export_range(10, 200, 10) var player_movement_speed: int = 100 
-@onready var NoiseSprite: Sprite2D = $Sprite2D
+var noise: FastNoiseLite
+@export_enum("Perlin", "Simplex", "Simplex Smooth", "Cellular") var noise_type: String = "Simplex Smooth"
+@export var fractal_type: FastNoiseLite.FractalType
+@export var cellular_distance_type: FastNoiseLite.CellularDistanceFunction
+@export_range(0.0, 1.0) var noise_frequency: float = 0.01
+
+#@onready var timer: Timer = Timer.new()
+#@export_range(10, 200, 10) var player_movement_speed: int = 100 
 @export_range(-1.0, 1.0) var tree_cap: float = -0.048
 @export_range(-1.0, 1.0) var building_cap: float = -0.252
 @export_range(0.0, 0.5) var building_overtakes_tree: float = 0.12
@@ -58,9 +63,9 @@ var y_tile_range: int = ProjectSettings.get_setting("display/window/size/viewpor
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	var start_time: float = Time.get_ticks_msec()
 	randomize()
-	NoiseSprite.set_noise(noise_type, fractal_type, cellular_distance_type)
+	var start_time: float = Time.get_ticks_msec()
+	set_noise()
 	paint_tiles()
 	var new_time: float = Time.get_ticks_msec() - start_time
 	print("Time taken: " + str(new_time) + "ms")
@@ -92,10 +97,29 @@ func _physics_process(_delta: float) -> void:
 
 # ALGORITHM BEGINS HERE
 
+func _get_noise_type() -> int:
+	match noise_type:
+		"Perlin":
+			return 3
+		"Simplex":
+			return 0
+		"Cellular":
+			return 2
+		_:
+			return 1 # Return Simplex Smooth by default
+
+func set_noise() -> void:
+	noise = FastNoiseLite.new()
+	noise.frequency = noise_frequency
+	noise.noise_type = _get_noise_type() as FastNoiseLite.NoiseType
+	noise.fractal_type = fractal_type
+	noise.cellular_distance_function = cellular_distance_type
+	noise.seed = randi()
+
 func paint_tiles() -> void:
 	for x in range(x_tile_range):
 		for y in range(y_tile_range):
-			var noise_point: float = NoiseSprite.texture.noise.get_noise_2d(x * tile_set.tile_size.x, y * tile_set.tile_size.y)
+			var noise_point: float = noise.get_noise_2d(x * tile_set.tile_size.x, y * tile_set.tile_size.y)
 			if noise_point < tree_cap and not get_used_cells(0).has(Vector2i(x, y)):
 				set_cell(0, Vector2i(x, y), 0, trees.pick_random())
 			if ((building_cap <= tree_cap and randf() < building_overtakes_tree) or (building_cap > tree_cap and noise_point < building_cap)) and not get_used_cells(0).has(Vector2i(x, y)):

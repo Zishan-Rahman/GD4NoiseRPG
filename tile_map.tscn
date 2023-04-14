@@ -1,6 +1,5 @@
-[gd_scene load_steps=8 format=3 uid="uid://d4jdcavluwx6s"]
+[gd_scene load_steps=5 format=3 uid="uid://d4jdcavluwx6s"]
 
-[ext_resource type="Script" path="res://NoiseSprite.gd" id="1_c5cne"]
 [ext_resource type="Texture2D" uid="uid://m662wwd4prmn" path="res://monochrome_packed.png" id="1_ld7xx"]
 [ext_resource type="Script" path="res://tile_map.gd" id="2_o1dn1"]
 
@@ -1088,24 +1087,8 @@ texture = ExtResource("1_ld7xx")
 [sub_resource type="TileSet" id="TileSet_qtrb6"]
 sources/0 = SubResource("TileSetAtlasSource_1e80b")
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_fsyqk"]
-metadata/_preview_in_3d_space_ = true
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_f1lv3"]
-width = 1152
-height = 640
-noise = SubResource("FastNoiseLite_fsyqk")
-
 [node name="TileMap" type="TileMap"]
 texture_filter = 1
 tile_set = SubResource("TileSet_qtrb6")
 format = 2
 script = ExtResource("2_o1dn1")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-texture = SubResource("NoiseTexture2D_f1lv3")
-centered = false
-script = ExtResource("1_c5cne")
-
-[node name="Timer" type="Timer" parent="."]
