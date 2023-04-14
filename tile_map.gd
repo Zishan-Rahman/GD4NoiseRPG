@@ -57,8 +57,10 @@ var x_tile_range: int = ProjectSettings.get_setting("display/window/size/viewpor
 var y_tile_range: int = ProjectSettings.get_setting("display/window/size/viewport_height") / tile_set.tile_size.y
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	var start_time: float = Time.get_ticks_msec()
+	randomize()
+	NoiseSprite.set_noise(noise_type, fractal_type, cellular_distance_type)
 	paint_tiles()
 	var new_time: float = Time.get_ticks_msec() - start_time
 	print("Time taken: " + str(new_time) + "ms")
@@ -67,7 +69,7 @@ func _ready():
 func _get_player_placement_cell() -> Vector2i:
 	return Vector2i(randi() % x_tile_range, randi() % y_tile_range)
 
-func place_player():
+func place_player() -> void:
 	while get_used_cells(0).has(player_placement_cell):
 		player_placement_cell = _get_player_placement_cell()
 	set_cell(0, player_placement_cell, 0, PLAYER_SPRITE)
@@ -75,7 +77,7 @@ func place_player():
 func _is_not_out_of_bounds(cell: Vector2i) -> bool:
 	return cell.x >= 0 and cell.x < x_tile_range and cell.y >= 0 and cell.y < y_tile_range
 
-func _physics_process(_delta):
+func _physics_process(_delta: float) -> void:
 	var previous_cell: Vector2i = player_placement_cell
 	var direction: Vector2i = Vector2i.ZERO
 	if Input.is_action_pressed("ui_up"): direction = Vector2i.UP
@@ -90,7 +92,7 @@ func _physics_process(_delta):
 
 # ALGORITHM BEGINS HERE
 
-func paint_tiles():
+func paint_tiles() -> void:
 	for x in range(x_tile_range):
 		for y in range(y_tile_range):
 			var noise_point: float = NoiseSprite.texture.noise.get_noise_2d(x * tile_set.tile_size.x, y * tile_set.tile_size.y)
