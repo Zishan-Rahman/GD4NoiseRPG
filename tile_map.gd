@@ -48,7 +48,7 @@ const PLAYER_SPRITE: Vector2i = Vector2i(24, 7)
 var player_placement_cell: Vector2i
 
 var noise: FastNoiseLite
-@export_enum("Perlin", "Simplex", "Simplex Smooth", "Cellular") var noise_type: String = "Simplex Smooth"
+@export_enum("Perlin", "Simplex", "Simplex Smooth") var noise_type: String = "Simplex Smooth"
 @export var fractal_type: FastNoiseLite.FractalType
 @export var cellular_distance_type: FastNoiseLite.CellularDistanceFunction
 @export_range(0.0, 1.0) var noise_frequency: float = 0.01
@@ -101,7 +101,6 @@ func _get_noise_type() -> int:
 	match noise_type:
 		"Perlin": return 3
 		"Simplex": return 0
-		"Cellular": return 2
 		_: return 1 # Return Simplex Smooth by default
 
 func set_noise() -> void:
