@@ -1098,3 +1098,4 @@ script = ExtResource("2_o1dn1")
 [node name="AcceptDialog" parent="." instance=ExtResource("3_e0ur6")]
 
 [node name="WinDialog" parent="." instance=ExtResource("4_ecfaa")]
+title = "You Found the Treasure!"
