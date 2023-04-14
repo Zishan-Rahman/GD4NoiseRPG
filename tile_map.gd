@@ -99,14 +99,10 @@ func _physics_process(_delta: float) -> void:
 
 func _get_noise_type() -> int:
 	match noise_type:
-		"Perlin":
-			return 3
-		"Simplex":
-			return 0
-		"Cellular":
-			return 2
-		_:
-			return 1 # Return Simplex Smooth by default
+		"Perlin": return 3
+		"Simplex": return 0
+		"Cellular": return 2
+		_: return 1 # Return Simplex Smooth by default
 
 func set_noise() -> void:
 	noise = FastNoiseLite.new()
