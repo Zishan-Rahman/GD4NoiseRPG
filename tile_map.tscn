@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://d4jdcavluwx6s"]
+[gd_scene load_steps=7 format=3 uid="uid://d4jdcavluwx6s"]
 
 [ext_resource type="Texture2D" uid="uid://m662wwd4prmn" path="res://monochrome_packed.png" id="1_ld7xx"]
 [ext_resource type="Script" path="res://tile_map.gd" id="2_o1dn1"]
+[ext_resource type="PackedScene" uid="uid://cau5jgogdnf53" path="res://accept_dialog.tscn" id="3_e0ur6"]
+[ext_resource type="PackedScene" uid="uid://b5q8ovcigrvyr" path="res://win_dialog.tscn" id="4_ecfaa"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1e80b"]
 texture = ExtResource("1_ld7xx")
@@ -1092,3 +1094,7 @@ texture_filter = 1
 tile_set = SubResource("TileSet_qtrb6")
 format = 2
 script = ExtResource("2_o1dn1")
+
+[node name="AcceptDialog" parent="." instance=ExtResource("3_e0ur6")]
+
+[node name="WinDialog" parent="." instance=ExtResource("4_ecfaa")]

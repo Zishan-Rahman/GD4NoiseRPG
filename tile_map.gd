@@ -78,13 +78,29 @@ func _ready() -> void:
 	place_ring()
 	var new_time: float = Time.get_ticks_msec() - start_time
 	print("Time taken: " + str(new_time) + "ms")
+	$AcceptDialog.visible = true
+	$AcceptDialog.confirmed.connect(_on_AcceptDialog_closed)
+	$AcceptDialog.canceled.connect(_on_AcceptDialog_closed)
+	$WinDialog.confirmed.connect(_on_WinDialog_confirmed)
+	$WinDialog.canceled.connect(_on_WinDialog_canceled)
+	get_tree().paused = true
 
-func _get_player_placement_cell() -> Vector2i:
+func _on_WinDialog_confirmed() -> void:
+	get_tree().reload_current_scene()
+
+func _on_WinDialog_canceled() -> void:
+	get_tree().quit()
+
+func _on_AcceptDialog_closed() -> void:
+	$AcceptDialog.visible = false
+	get_tree().paused = false
+
+func _get_random_placement_cell() -> Vector2i:
 	return Vector2i(randi() % x_tile_range, randi() % y_tile_range)
 
 func place_player() -> void:
 	while get_used_cells(0).has(player_placement_cell):
-		player_placement_cell = _get_player_placement_cell()
+		player_placement_cell = _get_random_placement_cell()
 	set_cell(0, player_placement_cell, 0, PLAYER_SPRITE)
 
 func place_ring() -> void:
@@ -103,10 +119,13 @@ func _physics_process(_delta: float) -> void:
 	elif Input.is_action_pressed("ui_left"): direction = Vector2i.LEFT
 	elif Input.is_action_pressed("ui_right"): direction = Vector2i.RIGHT
 	var new_placement_cell: Vector2i = player_placement_cell + direction
-	if (not get_used_cells(0).has(new_placement_cell) or trees.has(get_cell_atlas_coords(0, new_placement_cell))) and _is_not_out_of_bounds(new_placement_cell):
+	if (not get_used_cells(0).has(new_placement_cell) or trees.has(get_cell_atlas_coords(0, new_placement_cell)) or new_placement_cell == ring_placement_cell) and _is_not_out_of_bounds(new_placement_cell):
 		player_placement_cell = new_placement_cell
 		set_cell(0, previous_cell, 0)
 		set_cell(0, player_placement_cell, 0, PLAYER_SPRITE)
+		if player_placement_cell == ring_placement_cell:
+			$WinDialog.visible = true
+			get_tree().paused = true
 
 # ALGORITHM BEGINS HERE
 
