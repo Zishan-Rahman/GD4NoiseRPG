@@ -58,6 +58,7 @@ var noise: FastNoiseLite
 @export_enum("Perlin", "Simplex", "Simplex Smooth") var noise_type: String = "Simplex Smooth"
 @export var fractal_type: FastNoiseLite.FractalType
 @export var cellular_distance_type: FastNoiseLite.CellularDistanceFunction
+#@export_range(1, 10, 1) var octaves: int = 5 
 @export_range(0.0, 1.0) var noise_frequency: float = 0.01
 
 #@onready var timer: Timer = Timer.new()
@@ -142,6 +143,7 @@ func set_noise() -> void:
 	noise.noise_type = _get_noise_type() as FastNoiseLite.NoiseType
 	noise.fractal_type = fractal_type
 	noise.cellular_distance_function = cellular_distance_type
+#	noise.fractal_octaves = octaves
 	noise.seed = randi()
 
 func paint_tiles() -> void:
