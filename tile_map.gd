@@ -55,7 +55,7 @@ const rings: Array[Vector2i] = [
 var ring_placement_cell: Vector2i
 
 var noise: FastNoiseLite
-@export_enum("Perlin", "Simplex", "Simplex Smooth") var noise_type: String = "Simplex Smooth"
+@export_enum("Perlin", "Simplex", "Simplex Smooth", "Value", "Value Cubic") var noise_type: String = "Simplex Smooth"
 @export var fractal_type: FastNoiseLite.FractalType
 @export var cellular_distance_type: FastNoiseLite.CellularDistanceFunction
 #@export_range(1, 10, 1) var octaves: int = 5 
@@ -135,6 +135,8 @@ func _get_noise_type() -> int:
 	match noise_type:
 		"Perlin": return 3
 		"Simplex": return 0
+		"Value": return 5
+		"Value Cubic": return 4
 		_: return 1 # Return Simplex Smooth by default
 
 func set_noise() -> void:
