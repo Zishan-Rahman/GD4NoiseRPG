@@ -59,7 +59,7 @@ var noise: FastNoiseLite
 @export var fractal_type: FastNoiseLite.FractalType
 @export var cellular_distance_type: FastNoiseLite.CellularDistanceFunction
 #@export_range(1, 10, 1) var octaves: int = 5 
-@export_range(0.0, 1.0) var noise_frequency: float = 0.01
+@export_range(0.0, 1.0) var noise_frequency: float = 0.894
 
 #@onready var timer: Timer = Timer.new()
 #@export_range(10, 200, 10) var player_movement_speed: int = 100 
