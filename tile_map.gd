@@ -55,16 +55,22 @@ const rings: Array[Vector2i] = [
 var ring_placement_cell: Vector2i
 
 var noise: FastNoiseLite
+## Defines the type of noise generation algorithm to use. Equates to the noise_type property in FastNoiseLite.
 @export_enum("Perlin", "Simplex", "Simplex Smooth", "Value", "Value Cubic") var noise_type: String = "Simplex Smooth"
+## Defines the type of method used to combine octaves of a noise image into a fractal. Directly equates to the FractalType enum in FastNoiseLite.
 @export var fractal_type: FastNoiseLite.FractalType
+## Defines the function used to calculate the distance between the nearest/second-nearest point(s). Directly equates to the CellularDistanceFunction enum in FastNoiseLite.
 @export var cellular_distance_type: FastNoiseLite.CellularDistanceFunction
+### Defines the number of noise octaves to use in the generated image.
 #@export_range(1, 10, 1) var octaves: int = 5 
+## Defines the frequency of the generated noise, the higher the frequency, the rougher and more granular the noise.
 @export_range(0.0, 1.0) var noise_frequency: float = 0.894
 
-#@onready var timer: Timer = Timer.new()
-#@export_range(10, 200, 10) var player_movement_speed: int = 100 
+## Defines the upper limit to set for painting a tree tile on a specific noise pixel. If the value returned by the get_noise_2d method (in FastNoiseLite) is smaller than this, then it gets painted.
 @export_range(-1.0, 1.0) var tree_cap: float = -0.048
+## Defines the upper limit to set for painting a building tile on a specific noise pixel. If the value returned by the get_noise_2d method (in FastNoiseLite) is smaller than this, then it gets painted. If the value of building_cap is smaller than tree_cap, then decide whether or not to paint a building cell there with building_overtakes_tree.
 @export_range(-1.0, 1.0) var building_cap: float = -0.252
+## Only used when building_cap is smaller than tree_cap. Determines the probability that a building tile would be painted in a cell where a tree tile was, or could be, also painted. Whether or not the cell actually is painted over is decided on computation time.
 @export_range(0.0, 0.5) var building_overtakes_tree: float = 0.12
 var x_tile_range: int = ProjectSettings.get_setting("display/window/size/viewport_width") / tile_set.tile_size.x
 var y_tile_range: int = ProjectSettings.get_setting("display/window/size/viewport_height") / tile_set.tile_size.y
@@ -149,6 +155,9 @@ func set_noise() -> void:
 	noise.cellular_distance_function = cellular_distance_type
 #	noise.fractal_octaves = octaves
 	noise.seed = randi()
+
+# I took inspiration from a Godot 3.1 tutorial: https://youtu.be/SBDs8hbs43w
+# However, no code was taken or adapted in any way, shape or form.
 
 func paint_tiles() -> void:
 	for x in range(x_tile_range):
